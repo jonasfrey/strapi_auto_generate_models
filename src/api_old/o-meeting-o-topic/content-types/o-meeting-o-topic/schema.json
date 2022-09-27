@@ -1,0 +1,28 @@
+{
+    "kind": "collectionType",
+    "collectionName": "o-meeting-o-topic",
+    "info": {
+        "singularName": "o-meeting-o-topic",
+        "pluralName": "a-o-meeting-o-topic",
+        "displayName": "O_meeting_o_topic",
+        "description": ""
+    },
+    "options": {
+        "populateCreatorFields": true
+    },
+    "pluginOptions": {},
+    "attributes": {
+        "o_meeting": {
+            "private": false,
+            "type": "relation",
+            "relation": "oneToOne",
+            "target": "api::o-meeting.o-meeting"
+        },
+        "o_topic": {
+            "private": false,
+            "type": "relation",
+            "relation": "oneToOne",
+            "target": "api::o-topic.o-topic"
+        }
+    }
+}

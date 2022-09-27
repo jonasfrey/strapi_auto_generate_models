@@ -1,0 +1,36 @@
+{
+    "kind": "collectionType",
+    "collectionName": "o-email",
+    "info": {
+        "singularName": "o-email",
+        "pluralName": "a-o-email",
+        "displayName": "O_email",
+        "description": ""
+    },
+    "options": {
+        "populateCreatorFields": true
+    },
+    "pluginOptions": {},
+    "attributes": {
+        "s_email_from": {
+            "private": false,
+            "type": "string"
+        },
+        "s_a_s_email_to": {
+            "private": false,
+            "type": "string"
+        },
+        "s_subject": {
+            "private": false,
+            "type": "string"
+        },
+        "s_html_content_message": {
+            "private": false,
+            "type": "string"
+        },
+        "s_o_response_fetch_sendindblueapi": {
+            "private": false,
+            "type": "string"
+        }
+    }
+}

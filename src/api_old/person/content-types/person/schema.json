@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "people",
+  "info": {
+    "singularName": "person",
+    "pluralName": "people",
+    "displayName": "person"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "asdf": {
+      "type": "string"
+    },
+    "hand": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::hand.hand",
+      "inversedBy": "person"
+    },
+    "one_to_many_hands": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::one-to-many-hand.one-to-many-hand",
+      "mappedBy": "person"
+    }
+  }
+}

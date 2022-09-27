@@ -1,0 +1,20 @@
+{
+    "kind": "collectionType",
+    "collectionName": "o-chatroom",
+    "info": {
+        "singularName": "o-chatroom",
+        "pluralName": "a-o-chatroom",
+        "displayName": "O_chatroom",
+        "description": ""
+    },
+    "options": {
+        "populateCreatorFields": true
+    },
+    "pluginOptions": {},
+    "attributes": {
+        "s_name": {
+            "private": false,
+            "type": "string"
+        }
+    }
+}

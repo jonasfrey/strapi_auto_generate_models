@@ -1,0 +1,18 @@
+{
+  "kind": "collectionType",
+  "collectionName": "asdfasdfs",
+  "info": {
+    "singularName": "asdfasdf",
+    "pluralName": "asdfasdfs",
+    "displayName": "asdfasdf"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "asdf": {
+      "type": "string"
+    }
+  }
+}

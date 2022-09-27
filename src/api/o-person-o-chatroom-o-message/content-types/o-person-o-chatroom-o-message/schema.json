@@ -1,0 +1,34 @@
+{
+    "kind": "collectionType",
+    "collectionName": "o-person-o-chatroom-o-message",
+    "info": {
+        "singularName": "o-person-o-chatroom-o-message",
+        "pluralName": "a-o-person-o-chatroom-o-message",
+        "displayName": "O_person_o_chatroom_o_message",
+        "description": ""
+    },
+    "options": {
+        "populateCreatorFields": true
+    },
+    "pluginOptions": {},
+    "attributes": {
+        "o_person": {
+            "private": false,
+            "type": "relation",
+            "relation": "oneToOne",
+            "target": "api::o-person.o-person"
+        },
+        "o_chatroom": {
+            "private": false,
+            "type": "relation",
+            "relation": "oneToOne",
+            "target": "api::o-chatroom.o-chatroom"
+        },
+        "o_message": {
+            "private": false,
+            "type": "relation",
+            "relation": "oneToOne",
+            "target": "api::o-message.o-message"
+        }
+    }
+}

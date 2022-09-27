@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "asdfs",
+  "info": {
+    "singularName": "asdf",
+    "pluralName": "asdfs",
+    "displayName": "asdf"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "asdf": {
+      "type": "string",
+      "default": "asdf",
+      "regex": "/[a]/gi",
+      "unique": true,
+      "required": true,
+      "maxLength": 1,
+      "minLength": 1,
+      "private": true
+    }
+  }
+}

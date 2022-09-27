@@ -1,0 +1,24 @@
+{
+  "kind": "collectionType",
+  "collectionName": "one_to_many_hands",
+  "info": {
+    "singularName": "one-to-many-hand",
+    "pluralName": "one-to-many-hands",
+    "displayName": "one_to_many_hand"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "person": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::person.person",
+      "inversedBy": "one_to_many_hands"
+    }
+  }
+}

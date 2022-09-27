@@ -1,0 +1,20 @@
+{
+    "kind": "collectionType",
+    "collectionName": "o-meeting",
+    "info": {
+        "singularName": "o-meeting",
+        "pluralName": "a-o-meeting",
+        "displayName": "O_meeting",
+        "description": ""
+    },
+    "options": {
+        "populateCreatorFields": true
+    },
+    "pluginOptions": {},
+    "attributes": {
+        "s_name": {
+            "private": false,
+            "type": "string"
+        }
+    }
+}
