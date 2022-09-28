@@ -1,3 +1,7 @@
+# install denojs 
+
+https://deno.land/manual@v1.25.4/getting_started/installation
+
 # generate models
 1. goto ./denojs/models
 
@@ -6,12 +10,14 @@
 
 # create strapi models
 
-1. run `deno run -A .denojs/models/create_strapi_models.module.js`
+1. cd `cd .denojs/models`
+2. run `deno run -A create_strapi_models.module.js`
 
 
 # create javascript classes 
 
-1. run `deno run -A .denojs/models/create_javascript_classes.module.js`
+1. cd `cd .denojs/models`
+2. run `deno run -A create_javascript_classes.module.js`
 ## public and private properties
 foreach model there will be a class with all the properties and one with only the public properties for example
 
@@ -96,3 +102,59 @@ so we just have to imagine on the existance of the `o_person.n_id` property
         ]
     ),
 //...
+```
+the generated schema.json will look like this 
+
+
+O_person
+```json
+{
+    "kind": "collectionType",
+    "collectionName": "o-person",
+    "info": {
+        "singularName": "o-person",
+        "pluralName": "a-o-person",
+        "displayName": "O_person",
+        "description": ""
+    },
+    "options": {
+        "populateCreatorFields": true
+    },
+    "pluginOptions": {},
+    "attributes": {
+        "s_name": {
+            "private": false,
+            "type": "string"
+        }
+    }
+}
+```
+O_message
+```
+{
+    "kind": "collectionType",
+    "collectionName": "o-message",
+    "info": {
+        "singularName": "o-message",
+        "pluralName": "a-o-message",
+        "displayName": "O_message",
+        "description": ""
+    },
+    "options": {
+        "populateCreatorFields": true
+    },
+    "pluginOptions": {},
+    "attributes": {
+        "o_person": {
+            "private": false,
+            "type": "relation",
+            "relation": "oneToOne",
+            "target": "api::o-person.o-person"
+        },
+        "s_markdown": {
+            "private": false,
+            "type": "string"
+        }
+    }
+}
+```

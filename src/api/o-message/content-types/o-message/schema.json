@@ -12,6 +12,12 @@
     },
     "pluginOptions": {},
     "attributes": {
+        "o_person": {
+            "private": false,
+            "type": "relation",
+            "relation": "oneToOne",
+            "target": "api::o-person.o-person"
+        },
         "s_markdown": {
             "private": false,
             "type": "string"

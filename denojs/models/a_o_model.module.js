@@ -15,6 +15,10 @@ var a_o_model = [
         "O_message", 
         [
             new O_model_property(
+                "n_o_person_n_id",  // this is the 'one-to-many' relation of the O_person model , on e O_person can have many O_message
+                "number",
+            ),
+            new O_model_property(
                 "s_markdown", 
                 "string",
             ),
