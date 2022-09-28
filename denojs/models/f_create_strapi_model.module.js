@@ -63,7 +63,7 @@ var f_create_strapi_model = async function(o_model){
     var s_path_folder_model_root = s_path_folder_root + "/src/api/" +  s_o_model_s_name_lower_kebabcase
     // console.log(s_path_folder_model_root)
     
-
+    
     // // [o-model]
     // //      content-types
     // //          schema.js
@@ -87,9 +87,12 @@ var f_create_strapi_model = async function(o_model){
     }
     for(var n_index in o_model.a_o_model_property){
         var o_model_property = o_model.a_o_model_property[n_index];
-        if(o_model_property.b_server_side_only){
 
+        var s_type = o_model_property.s_type;
+        if(o_model_property.s_strapi_type != null){
+            s_type = o_model_property.s_strapi_type
         }
+
         var o_model_related = f_o_model_related(o_model_property.s_name);
 
 
@@ -107,7 +110,7 @@ var f_create_strapi_model = async function(o_model){
             o_strapi_attribute.target = `api::${s_o_model_related_s_name_lower_kebabcase}.${s_o_model_related_s_name_lower_kebabcase}`
             
         }else{
-            o_strapi_attribute.type = o_model_property.s_strapi_type
+            o_strapi_attribute.type = s_type
 
             if(o_strapi_attribute.type == "media"){
                     o_strapi_attribute.allowedTypes = o_model_property.a_s_strapi_type_media_allowedTypes

@@ -23,6 +23,7 @@ ${o_model.a_o_model_property.map(o=>`${s_indentation}${o.s_name}`).join(",\n")}
 ${o_model.a_o_model_property.map(o=>`${s_indentation}this.${o.s_name} = ${o.s_name};`).join("\n")}
     }
 }
+export { ${o_model.s_name} }
 `
     var s_path_file = `${s_path_folder_classes_with_all_properties}/${o_model.s_name}.module.js`;
 
@@ -45,6 +46,7 @@ ${a_o_model_property_filtered_public_only.map(o=>`${s_indentation}${o.s_name}`).
 ${a_o_model_property_filtered_public_only.map(o=>`${s_indentation}this.${o.s_name} = ${o.s_name};`).join("\n")}
     }
 }
+export { ${o_model.s_name} }
 `
         var s_path_file = `${s_path_folder_classes_with_only_public_properties}/${o_model.s_name}.module.js`;
     

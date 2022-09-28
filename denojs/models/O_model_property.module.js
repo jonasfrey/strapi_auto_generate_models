@@ -1,6 +1,7 @@
 class O_model_property{
     constructor(
-        s_name, 
+        s_name,
+        s_type,  
         s_strapi_type,
         b_private = false,
         n_minimum_number = null, 
@@ -16,6 +17,7 @@ class O_model_property{
         b_strapi_draftAndPublish = true,
     ){
         this.s_name = s_name
+        this.s_type = s_type
         this.s_strapi_type = s_strapi_type
         this.b_private = b_private
         this.n_minimum_number = n_minimum_number
