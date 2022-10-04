@@ -4,11 +4,11 @@ var f_write_file = async function(
     s_path_file, 
     s_file_content,
 ){
-    try{
-        var  o_stat = await Deno.stat(s_path_file)
-    }catch(e){
-        console.log(e)
-    }
+    // try{
+    //     var  o_stat = await Deno.stat(s_path_file)
+    // }catch(e){
+    //     console.log(e)
+    // }
     // console.log(
     //     s_path_file, 
     //     s_file_content
@@ -21,3 +21,4 @@ var f_write_file = async function(
 }
 
 export {f_write_file}
+

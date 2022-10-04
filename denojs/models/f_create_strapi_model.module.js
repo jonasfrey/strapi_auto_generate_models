@@ -1,5 +1,6 @@
 import * as fs from "https://deno.land/std@0.154.0/fs/mod.ts";
 import { a_o_model } from "./a_o_model.module.js";
+import { f_write_file } from "./f_write_file.module.js";
 // exmaple O_person has multiple O_fingerprint
 // console.log(Deno.args[0])
 const b_overwrite_everything = (prompt('if existing, overwrite everything (content-types / controllers / routes / services ): [y/n]').toLowerCase() == "y");
@@ -40,20 +41,6 @@ var f_o_model_related = function(s_prop_name){
     return a_o_model_filtered[0]
 }
 
-var f_write_file = async function(
-    s_path_file, 
-    s_file_content,
-){
-    try{
-        var  o_stat = await Deno.stat(s_path_file)
-    }catch(e){
-        console.log(e)
-    }
-    fs.ensureFileSync(s_path_file); 
-    Deno.writeTextFileSync(s_path_file, s_file_content);
-    console.log(`${s_path_file}: file has been written automatically`);
-    return true
-}
 
 var f_create_strapi_model = async function(o_model){
     var s_generated_by_line = `// ! this file has been written automatically by ${import.meta.url} at aprox ${new Date().toString()}`
