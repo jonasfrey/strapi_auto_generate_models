@@ -13,6 +13,42 @@ if(!b_overwrite_everything){
 
 }
 
+var f_compare_files_prompt_user_and_maybe_ovewrite = async function(
+    s_path_file, 
+    s_file_content
+){
+
+    var s_text = await Deno.readTextFile(s_path_file)
+    var s_text_without_firstline = s_text.split("\n").slice(1).join("\n");
+    var s_filecontent_without_firstline = s_file_content.split("\n").slice(1).join("\n");
+    
+    var b_really_overwrite = true;
+
+    if(s_text_without_firstline != s_filecontent_without_firstline){
+        var s_msg = `
+${s_path_file}:
+
+${Array.apply(null, Array(40)).map(n=>{return "o"}).join("_")}
+
+${s_text}
+${Array.apply(null, Array(40)).map(n=>{return "o"}).join("^")}        
+${Array.apply(null, Array(40)).map(n=>{return "n"}).join("_")}
+
+${s_file_content}
+
+${Array.apply(null, Array(40)).map(n=>{return "n"}).join("^")}        
+`
+        console.log(s_msg)
+        var b_really_overwrite = (prompt(
+            `the ${Array.apply(null, Array(5)).map(n=>{return "o"}).join("_")} (old content) differs from ${Array.apply(null, Array(5)).map(n=>{return "n"}).join("_")} (new content), do you really want to override it? [y/n]`
+            ).toLowerCase() == "y");            
+    }
+    if(b_really_overwrite){
+        await f_write_file(s_path_file, s_file_content);
+    }
+
+}
+
 // O_person
 // o-person
 // ├── content-types
@@ -43,7 +79,10 @@ var f_o_model_related = function(s_prop_name){
 
 
 var f_create_strapi_model = async function(o_model){
-    var s_generated_by_line = `// ! this file has been written automatically by ${import.meta.url} at aprox ${new Date().toString()}`
+    var o_date_now = new Date(); 
+    var o_comment = { s_msg: `this file has been written by ${import.meta.url}`, s_ts: o_date_now.toString(), n_ts_ms: o_date_now.getTime()}
+    var s_generated_by_line = `//${JSON.stringify(o_comment)}`;
+
     var s_o_model_s_name_lower = o_model.s_name.toLocaleLowerCase()
     var s_o_model_s_name_lower_kebabcase = s_o_model_s_name_lower.split('_').join('-')
     var s_path_folder_root = './../..'
@@ -122,16 +161,15 @@ var f_create_strapi_model = async function(o_model){
     var s_path_file = s_path_folder + `/${s_o_model_s_name_lower_kebabcase}/` + "schema" + ".json"
 
     if(b_overwrite_everything || b_overwrite_schema){
-        await f_write_file(s_path_file, s_file_content);
+        await f_compare_files_prompt_user_and_maybe_ovewrite(s_path_file, s_file_content);
     }
 
 
     // ├── controllers
     // │   └── o-person.js
     var s_file_content = 
-`
+`${s_generated_by_line}
 'use strict';
-${s_generated_by_line}
 /**
  * ${s_o_model_s_name_lower_kebabcase} controller
  */
@@ -143,17 +181,16 @@ module.exports = createCoreController('api::${s_o_model_s_name_lower_kebabcase}.
 var s_path_folder = s_path_folder_model_root + "/" + "controllers"
 var s_path_file = s_path_folder + "/" + s_o_model_s_name_lower_kebabcase + ".js"
 
-if(b_overwrite_everything || b_overwrite_controllers){
-    await f_write_file(s_path_file, s_file_content);
-}
 
+if(b_overwrite_everything || b_overwrite_controllers){
+    await f_compare_files_prompt_user_and_maybe_ovewrite(s_path_file, s_file_content);
+}
 
 // ├── routes
 // │   └── o-person.js
 var s_file_content = 
-`
+`${s_generated_by_line}
 'use strict';
-${s_generated_by_line}
 /**
  * ${s_o_model_s_name_lower_kebabcase} router
  */
@@ -165,10 +202,10 @@ module.exports = createCoreRouter('api::${s_o_model_s_name_lower_kebabcase}.${s_
 var s_path_folder = s_path_folder_model_root + "/" + "routes"
 var s_path_file = s_path_folder + "/" + s_o_model_s_name_lower_kebabcase + ".js"
 
-if(b_overwrite_everything || b_overwrite_routes){
-    await f_write_file(s_path_file, s_file_content);
-}
 
+if(b_overwrite_everything || b_overwrite_routes){
+    await f_compare_files_prompt_user_and_maybe_ovewrite(s_path_file, s_file_content);
+}
 
 
 
@@ -186,9 +223,8 @@ if(b_overwrite_everything || b_overwrite_routes){
 // module.exports = createCoreService('api::o-person.o-person');
 // 
 var s_file_content = 
-`
+`${s_generated_by_line}
 'use strict';
-${s_generated_by_line}
 /**
  * ${s_o_model_s_name_lower_kebabcase} service
  */
@@ -200,9 +236,10 @@ module.exports = createCoreService('api::${s_o_model_s_name_lower_kebabcase}.${s
 var s_path_folder = s_path_folder_model_root + "/" + "services"
 var s_path_file = s_path_folder + "/" + s_o_model_s_name_lower_kebabcase + ".js"
 
-if(b_overwrite_everything || b_overwrite_services){
-    await f_write_file(s_path_file, s_file_content);
+if(b_overwrite_everything || b_overwrite_routes){
+    await f_compare_files_prompt_user_and_maybe_ovewrite(s_path_file, s_file_content);
 }
+
 
 
 
