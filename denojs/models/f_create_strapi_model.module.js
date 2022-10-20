@@ -113,6 +113,12 @@ var f_create_strapi_model = async function(o_model){
     }
     for(var n_index in o_model.a_o_model_property){
         var o_model_property = o_model.a_o_model_property[n_index];
+        
+        if(o_model_property.s_name == "n_id"){
+            // console.log(o_model_property)
+            console.log(`i have to skipt this o_model_property ${o_model_property}, s_name:'${o_model_property.s_name}' is not allowed because strapi is bad and does not allow a custom id name and its default id name is bad`)
+            continue;
+        }
 
         var s_type = o_model_property.s_type;
         if(o_model_property.s_strapi_type != null){

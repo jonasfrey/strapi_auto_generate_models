@@ -29,8 +29,10 @@ ${a_o_model.map(
     }
     ).join("\n")}
 var a_o_class = [${a_o_model.map(o=>o.s_name).join(",\n")}];
+var o_o_class = {${a_o_model.map(o=>`${o.s_name}:${o.s_name}`).join(",\n")}};
 export { 
 a_o_class,
+o_o_class,
 ${a_o_model.map(o=>o.s_name).join(",\n")}
 }
 `

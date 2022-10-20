@@ -6,6 +6,10 @@ var a_o_model = [
         "O_person", 
         [
             new O_model_property(
+                "n_id",
+                "integer"
+            ),
+            new O_model_property(
                 "s_name", 
                 "string",
             ),
@@ -15,7 +19,15 @@ var a_o_model = [
         "O_message", 
         [
             new O_model_property(
+                "n_id",
+                "integer"
+            ),
+            new O_model_property(
                 "n_o_person_n_id",  // this is the 'one-to-many' relation of the O_person model , on e O_person can have many O_message
+                "number",
+            ),
+            new O_model_property(
+                "n_o_chatroom_n_id",
                 "number",
             ),
             new O_model_property(
@@ -28,14 +40,41 @@ var a_o_model = [
         "O_chatroom", 
         [
             new O_model_property(
+                "n_id",
+                "integer"
+            ),
+            new O_model_property(
                 "s_name", 
                 "string",
             ),
+            new O_model_property(
+                "o_media", 
+                "media", 
+                null,
+                null, 
+                null, 
+                null, 
+                null, 
+                null, 
+                null, 
+                null,
+                [
+                    "images",
+                    "files",
+                    "videos",
+                    "audios"
+                ],
+                true
+            )
         ]
     ),
     new O_model(
         "O_person_o_chatroom_o_message", 
         [
+            new O_model_property(
+                "n_id",
+                "integer"
+            ),
             new O_model_property(
                 "n_o_person_n_id", 
                 "number",

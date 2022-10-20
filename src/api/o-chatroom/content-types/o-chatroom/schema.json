@@ -15,6 +15,12 @@
         "s_name": {
             "private": false,
             "type": "string"
+        },
+        "o_media": {
+            "private": false,
+            "type": "media",
+            "allowedTypes": null,
+            "multiple": null
         }
     }
 }

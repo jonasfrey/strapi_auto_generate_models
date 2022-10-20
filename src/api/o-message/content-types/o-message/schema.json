@@ -18,6 +18,12 @@
             "relation": "oneToOne",
             "target": "api::o-person.o-person"
         },
+        "o_chatroom": {
+            "private": false,
+            "type": "relation",
+            "relation": "oneToOne",
+            "target": "api::o-chatroom.o-chatroom"
+        },
         "s_markdown": {
             "private": false,
             "type": "string"
