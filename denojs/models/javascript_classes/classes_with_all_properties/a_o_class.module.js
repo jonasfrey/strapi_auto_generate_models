@@ -1,5 +1,5 @@
 
-// ! this file has been written automatically by file:///home/ubuntuuser/code/strapi_auto_generate_models/denojs/models/f_create_javascript_classes.module.js at aprox Wed Oct 19 2022 17:47:42 GMT+0200 (Central European Summer Time)
+// ! this file has been written automatically by file:///home/jf18j492/code/strapi_auto_generate_models/denojs/models/f_create_javascript_classes.module.js at aprox Thu Oct 20 2022 14:32:55 GMT+0200 (Central European Summer Time)
 import {O_person} from "./O_person.module.js"
 import {O_message} from "./O_message.module.js"
 import {O_chatroom} from "./O_chatroom.module.js"

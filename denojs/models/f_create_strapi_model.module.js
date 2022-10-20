@@ -17,31 +17,41 @@ var f_compare_files_prompt_user_and_maybe_ovewrite = async function(
     s_path_file, 
     s_file_content
 ){
-
-    var s_text = await Deno.readTextFile(s_path_file)
-    var s_text_without_firstline = s_text.split("\n").slice(1).join("\n");
-    var s_filecontent_without_firstline = s_file_content.split("\n").slice(1).join("\n");
-    
-    var b_really_overwrite = true;
-
-    if(s_text_without_firstline != s_filecontent_without_firstline){
-        var s_msg = `
-${s_path_file}:
-
-${Array.apply(null, Array(40)).map(n=>{return "o"}).join("_")}
-
-${s_text}
-${Array.apply(null, Array(40)).map(n=>{return "o"}).join("^")}        
-${Array.apply(null, Array(40)).map(n=>{return "n"}).join("_")}
-
-${s_file_content}
-
-${Array.apply(null, Array(40)).map(n=>{return "n"}).join("^")}        
-`
-        console.log(s_msg)
-        var b_really_overwrite = (prompt(
-            `the ${Array.apply(null, Array(5)).map(n=>{return "o"}).join("_")} (old content) differs from ${Array.apply(null, Array(5)).map(n=>{return "n"}).join("_")} (new content), do you really want to override it? [y/n]`
-            ).toLowerCase() == "y");            
+    var b_file_existing = true;
+    try{
+        var o_stat = await Deno.stat(s_path_file)
+    }catch(o_e){
+        console.log(o_e);
+        b_file_existing = false;
+        b_really_overwrite = true;
+        //file not existing
+    }
+    if(b_file_existing){
+            var s_text = await Deno.readTextFile(s_path_file)
+            var s_text_without_firstline = s_text.split("\n").slice(1).join("\n");
+            var s_filecontent_without_firstline = s_file_content.split("\n").slice(1).join("\n");
+            
+            var b_really_overwrite = true;
+        
+            if(s_text_without_firstline != s_filecontent_without_firstline){
+                var s_msg = `
+        ${s_path_file}:
+        
+        ${Array.apply(null, Array(40)).map(n=>{return "o"}).join("_")}
+        
+        ${s_text}
+        ${Array.apply(null, Array(40)).map(n=>{return "o"}).join("^")}        
+        ${Array.apply(null, Array(40)).map(n=>{return "n"}).join("_")}
+        
+        ${s_file_content}
+        
+        ${Array.apply(null, Array(40)).map(n=>{return "n"}).join("^")}        
+        `
+                console.log(s_msg)
+                var b_really_overwrite = (prompt(
+                    `the ${Array.apply(null, Array(5)).map(n=>{return "o"}).join("_")} (old content) differs from ${Array.apply(null, Array(5)).map(n=>{return "n"}).join("_")} (new content), do you really want to override it? [y/n]`
+                    ).toLowerCase() == "y");            
+            }
     }
     if(b_really_overwrite){
         await f_write_file(s_path_file, s_file_content);
@@ -116,7 +126,7 @@ var f_create_strapi_model = async function(o_model){
         
         if(o_model_property.s_name == "n_id"){
             // console.log(o_model_property)
-            console.log(`i have to skipt this o_model_property ${o_model_property}, s_name:'${o_model_property.s_name}' is not allowed because strapi is bad and does not allow a custom id name and its default id name is bad`)
+            console.log(`i have to skip this o_model_property ${o_model_property}, s_name:'${o_model_property.s_name}' is not allowed because strapi is bad and does not allow a custom id name and its default id name is bad`)
             continue;
         }
 
@@ -134,19 +144,21 @@ var f_create_strapi_model = async function(o_model){
         
         var s_prop_name_strapi_attributes_object = o_model_property.s_name
 
-        if(o_model_related){
-            s_prop_name_strapi_attributes_object = o_model_related.s_name.toLowerCase();
-            var s_o_model_related_s_name_lower_kebabcase = o_model_related.s_name.toLowerCase().split('_').join('-')
-            o_strapi_attribute.type = "relation"
-            o_strapi_attribute.relation = "oneToOne"
-            o_strapi_attribute.target = `api::${s_o_model_related_s_name_lower_kebabcase}.${s_o_model_related_s_name_lower_kebabcase}`
-            
-        }else{
+        if(o_model_property.type == 'media'){
             o_strapi_attribute.type = s_type
 
             if(o_strapi_attribute.type == "media"){
                     o_strapi_attribute.allowedTypes = o_model_property.a_s_strapi_type_media_allowedTypes
                     o_strapi_attribute.multiple = o_model_property.a_s_strapi_type_multiple
+            }
+        }else{
+            if(o_model_related){
+                s_prop_name_strapi_attributes_object = o_model_related.s_name.toLowerCase();
+                var s_o_model_related_s_name_lower_kebabcase = o_model_related.s_name.toLowerCase().split('_').join('-')
+                o_strapi_attribute.type = "relation"
+                o_strapi_attribute.relation = "oneToOne"
+                o_strapi_attribute.target = `api::${s_o_model_related_s_name_lower_kebabcase}.${s_o_model_related_s_name_lower_kebabcase}`
+                
             }
         }
 

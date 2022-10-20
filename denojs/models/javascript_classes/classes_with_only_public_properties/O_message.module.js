@@ -1,5 +1,5 @@
 
-// // ! this file has been written automatically by f_create_javascript_class.module.js at aprox Wed Oct 19 2022 17:47:42 GMT+0200 (Central European Summer Time)
+// // ! this file has been written automatically by f_create_javascript_class.module.js at aprox Thu Oct 20 2022 14:32:55 GMT+0200 (Central European Summer Time)
 class O_message{
     constructor(
        n_id,

@@ -16,7 +16,7 @@
             "private": false,
             "type": "string"
         },
-        "o_media": {
+        "n_o_file_n_id": {
             "private": false,
             "type": "media",
             "allowedTypes": null,

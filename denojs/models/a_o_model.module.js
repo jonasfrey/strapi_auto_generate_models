@@ -48,8 +48,8 @@ var a_o_model = [
                 "string",
             ),
             new O_model_property(
-                "o_media", 
-                "media", 
+                "n_o_file_n_id", 
+                "media",
                 null,
                 null, 
                 null, 
