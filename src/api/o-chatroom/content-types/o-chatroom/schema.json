@@ -16,11 +16,38 @@
             "private": false,
             "type": "string"
         },
-        "n_o_file_n_id": {
+        "n_o_file_n_id__file_one": {
             "private": false,
             "type": "media",
-            "allowedTypes": null,
-            "multiple": null
+            "allowedTypes": [
+                "images",
+                "files",
+                "videos",
+                "audios"
+            ],
+            "multiple": true
+        },
+        "n_o_file_n_id__file_two": {
+            "private": false,
+            "type": "media",
+            "allowedTypes": [
+                "images",
+                "files",
+                "videos",
+                "audios"
+            ],
+            "multiple": true
+        },
+        "n_o_file_n_id__file_three": {
+            "private": false,
+            "type": "media",
+            "allowedTypes": [
+                "images",
+                "files",
+                "videos",
+                "audios"
+            ],
+            "multiple": true
         }
     }
 }
