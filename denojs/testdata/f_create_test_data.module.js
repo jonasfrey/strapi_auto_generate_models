@@ -115,6 +115,8 @@ var f_a_o_read_or_create = async function(
         delete o_instance.n_id
     }
 
+    // i know this is very very very ugly , but it is only a workaround
+    // because of the missing stuff strapi should come with by default....
     if(o_instance.n_o_file_n_id){
         if(o_instance.n_o_file_n_id instanceof O_media){
             // Deno.exit(1)
