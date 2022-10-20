@@ -1,5 +1,6 @@
 import * as fs from "https://deno.land/std@0.154.0/fs/mod.ts";
 import { a_o_model } from "./a_o_model.module.js";
+import { f_o_model_related } from "./f_o_model_related.module.js";
 import { f_write_file } from "./f_write_file.module.js";
 // exmaple O_person has multiple O_fingerprint
 // console.log(Deno.args[0])
@@ -65,27 +66,7 @@ var f_compare_files_prompt_user_and_maybe_ovewrite = async function(
 // │   └── o-person
 // │       └── schema.json
 
-var f_o_model_related = function(s_prop_name){
-    // n_o_finger_n_id -> 'n_', 'o_finger_', 'n_id'
-    var s_start = "n_"; 
-    var s_end = "_n_id";
-    var n_index_start = s_prop_name.indexOf(s_start);
-    if(
-        n_index_start == 0
-        &&
-        s_prop_name.endsWith(s_end)
-        ){
-            var s_model_name_lowercase = s_prop_name.substring(s_start.length, (s_prop_name.length - s_end.length))
-    }else{ 
-        return undefined
-    }
-    var a_o_model_filtered = a_o_model.filter(
-        function(obj_model){
-            return obj_model.s_name.toLowerCase() == s_model_name_lowercase
-        }
-    )
-    return a_o_model_filtered[0]
-}
+
 
 
 var f_create_strapi_model = async function(o_model){
@@ -143,14 +124,11 @@ var f_create_strapi_model = async function(o_model){
         }
         
         var s_prop_name_strapi_attributes_object = o_model_property.s_name
+        o_strapi_attribute.type = s_type
 
-        if(o_model_property.type == 'media'){
-            o_strapi_attribute.type = s_type
-
-            if(o_strapi_attribute.type == "media"){
-                    o_strapi_attribute.allowedTypes = o_model_property.a_s_strapi_type_media_allowedTypes
-                    o_strapi_attribute.multiple = o_model_property.a_s_strapi_type_multiple
-            }
+        if(s_type == 'media'){
+            o_strapi_attribute.allowedTypes = o_model_property.a_s_strapi_type_media_allowedTypes
+            o_strapi_attribute.multiple = o_model_property.a_s_strapi_type_multiple
         }else{
             if(o_model_related){
                 s_prop_name_strapi_attributes_object = o_model_related.s_name.toLowerCase();

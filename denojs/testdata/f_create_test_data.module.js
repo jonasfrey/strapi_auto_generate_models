@@ -3,6 +3,8 @@ import {a_o_test_data} from "./a_o_test_data.module.js"
 import { O_file_info } from "./O_file_info.module.js";
 import { O_media } from "./O_media.module.js";
 import {f_o_command} from "./../O_command.module.js";
+import {a_o_model} from "./../models/a_o_model.module.js";
+import { f_o_model_related } from "../models/f_o_model_related.module.js";
 
 var s_url_api = "http://127.0.0.1:1337/api"
 
@@ -32,7 +34,7 @@ var f_a_o_response_upload = async function(
         // console.log(o_response_object)
     }
 
-    var s_url = `${s_url_api}/upload`; 
+    var s_url_create = `${s_url_api}/upload`; 
 
     const o_form_data = new FormData();
     var o_stat = await Deno.stat(o_media.s_path_file);
@@ -69,7 +71,7 @@ var f_a_o_response_upload = async function(
     }
     
     var o_response = await fetch(
-        s_url,
+        s_url_create,
         {
             method: 'POST', // *GET, POST, PUT, DELETE, etc.
             headers: {
@@ -101,113 +103,146 @@ if(Deno.args[0] == "test"){
     console.log(o)
 }
 
+// var f_a_o_read = async function(
+//     o_instance
+// ){
 
-var f_a_o_read_or_create = async function(
+//     var s_model_name = o_instance.constructor.name; 
+//     var s_model_name_lower_kebabcase = s_model_name.toLowerCase().split("_").join("-");
+
+//     var s_url_read = `${s_url_api}/a-${s_model_name_lower_kebabcase}/${o_instance.id}`
+//     var o_response = await fetch(s_url_read, {method:"GET",headers:{"Content-Type": "application/json"}}); 
+//     var o_parsed_response = await o_response.json(); 
+//     console.log(o_parsed_response.data)
+//     if(
+//         o_parsed_response.data != undefined 
+//         &&
+//         o_parsed_response.data != null){
+
+//         if(Array.isArray(o_parsed_response.data)){
+//             var a_o = o_parsed_response.data
+//         }else{
+//             var a_o = [o_parsed_response.data]
+//         }
+//         var a_o_instance = f_a_o_instance_by_strapi_response_object(
+//             a_o, 
+//             o_instance.constructor
+//         );
+    
+//         // console.log(a_o_instance)
+//         if(a_o_instance.length > 0){
+//             return Promise.resolve(a_o_instance);
+//         } 
+
+//     }
+// }
+// var f_a_o_create = async function(
+//     o_instance
+// ){
+
+// }
+var f_a_o_delete_and_create = async function(
     o_instance
 ){
+
     // console.log(o_test_data.constructor.name)
     var s_model_name = o_instance.constructor.name; 
+    var o_model = a_o_model.filter(
+        o_model => o_model.s_name == s_model_name
+    )[0]
     var s_model_name_lower_kebabcase = s_model_name.toLowerCase().split("_").join("-");
     // console.log("o_instance")
     // console.log(o_instance)
+
+    for(var s_prop_name in o_instance){     
+        // i know this is very very very ugly , but it is only a workaround
+        // because of the missing stuff strapi should come with by default....
+        var o_model_property = o_model.a_o_model_property.filter(o=>o.s_name == s_prop_name)[0];
+        // console.log(o_model_property)   
+        // console.log(o_model_property.s_type)
+
+        if(o_model_property.s_type == "media"){
+            if(o_instance[s_prop_name] instanceof O_media){
+                // Deno.exit(1)
+                var o_media = o_instance[s_prop_name];
+                var a_o_file = await f_a_o_response_upload(o_media);
+                console.log(a_o_file)
+                o_instance[s_prop_name] = a_o_file[0].id;
+            }
+        }
+
+        var o_model_related = f_o_model_related(s_prop_name);
+        if(o_model_related){
+            
+            o_instance[o_model_related.s_name.toLowerCase()] = {
+                "id": o_instance[s_prop_name]
+            }
+        }
+    }
+
     if(o_instance.n_id){
         o_instance.id = o_instance.n_id; 
         delete o_instance.n_id
     }
-
-    // i know this is very very very ugly , but it is only a workaround
-    // because of the missing stuff strapi should come with by default....
-    if(o_instance.n_o_file_n_id){
-        if(o_instance.n_o_file_n_id instanceof O_media){
-            // Deno.exit(1)
-            var o_media = o_instance.n_o_file_n_id;
-            var a_o_file = await f_a_o_response_upload(o_media);
-            console.log(a_o_file)
-            o_instance.n_o_file_n_id = a_o_file[0].id;
-        }
-    }
-
     // try to delete
     var s_url_delete = `${s_url_api}/a-${s_model_name_lower_kebabcase}/${o_instance.id}`
     var o_response = await fetch(s_url_delete, {method:"DELETE",headers:{"Content-Type": "application/json"}}); 
     var o_parsed_response = await o_response.json();
 
-    // var s_url_read = `${s_url_api}/a-${s_model_name_lower_kebabcase}/${o_instance.id}`
-    // var o_response = await fetch(s_url_read, {method:"GET",headers:{"Content-Type": "application/json"}}); 
-    // var o_parsed_response = await o_response.json(); 
+    var s_url_create = `${s_url_api}/a-${s_model_name_lower_kebabcase}`
 
-    
-    console.log(o_parsed_response.data)
-    if(
-        o_parsed_response.data != undefined 
-        &&
-        o_parsed_response.data != null){
 
-        if(Array.isArray(o_parsed_response.data)){
-            var a_o = o_parsed_response.data
-        }else{
-            var a_o = [o_parsed_response.data]
+    var o_response = await fetch(
+        s_url_create,
+        {
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({data:o_instance}) 
         }
-        var a_o_instance = f_a_o_instance_by_strapi_response_object(
-            a_o, 
-            o_instance.constructor
-        );
-    
-        // console.log(a_o_instance)
-        if(a_o_instance.length > 0){
-            return Promise.resolve(a_o_instance);
-        } 
-
+    );
+    // console.log("o_response")
+    // console.log(o_response)
+    var o_parsed_response = await o_response.json();
+    console.log("o_parsed_response");
+    console.log(o_parsed_response); 
+    if(o_parsed_response.data == null){
+        console.log("could not create object")
+        Promise.reject(o_parsed_response)
     }
 
-    var s_url = `${s_url_api}/a-${s_model_name_lower_kebabcase}`
-    try{
-        var o_response = await fetch(
-            s_url,
-            {
-                // method: 'GET', // *GET, POST, PUT, DELETE, etc.
-                method: 'POST', // *GET, POST, PUT, DELETE, etc.
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({data:o_instance}) 
-            }
-        );
-        // console.log("o_response")
-        // console.log(o_response)
-        var o_parsed_response = await o_response.json();
-        // console.log("o_parsed_response");
-        // console.log(o_parsed_response); 
-
-        if(Array.isArray(o_parsed_response.data)){
-            var a_o = o_parsed_response.data
-        }else{
-            var a_o = [o_parsed_response.data]
-        }
-
-        // if(!o_parsed_response.ok){
-        //     console.log(o_parsed_response);
-        //     return Promise.reject("could not create strapi object");
-        // }
-
-        var a_o_instance = f_a_o_instance_by_strapi_response_object( 
-            a_o, 
-            o_instance.constructor
-        );
-
-        return Promise.resolve(a_o_instance)
-    }catch(o_e){
-        console.log(`make sure the strapi is running with 'npm run develop' or make sure access to the route ${s_url} is not forbidden`)
-        console.error(o_e)
-        return Promise.reject(o_e)
+    if(Array.isArray(o_parsed_response.data)){
+        var a_o = o_parsed_response.data
+    }else{
+        var a_o = [o_parsed_response.data]
     }
+
+    // if(!o_parsed_response.ok){
+    //     console.log(o_parsed_response);
+    //     return Promise.reject("could not create strapi object");
+    // }
+
+    var a_o_instance = f_a_o_instance_by_strapi_response_object( 
+        a_o, 
+        o_instance.constructor
+    );
+
+    return Promise.resolve(a_o_instance)
+
 }
 var f_create_test_data = async function(
 ){
     for(var o_test_data of a_o_test_data){
-        var a_o = f_a_o_read_or_create(o_test_data);
-        console.log(`object(s) ha(s/ve) been created, input: ${o_test_data}, output:${a_o}`)
+        console.log("trying to create object")
+        console.log(`input:`)
+        console.log(o_test_data)
+        var a_o = await f_a_o_delete_and_create(o_test_data);
+        console.log(`object has been created`)
+        console.log(`output:`)
+        console.log(a_o)
     }
+    console.log(`all testdata has been successfully created`)
 }
 
 var f_a_o_instance_by_strapi_response_object = function(

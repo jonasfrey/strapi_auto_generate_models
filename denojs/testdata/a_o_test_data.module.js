@@ -15,6 +15,24 @@ var a_o_test_data = [
                 null
             )
         ),
+        new O_media(
+            "./files/ice_bear_in_desert.jpg", 
+            new O_file_info(
+                "ice_bear_in_desert.jpg", 
+                "an ice bear roaming the desert",
+                "ice bear in desert", 
+                null
+            )
+        ),
+        new O_media(
+            "./files/snake_on_north_pole.jpg", 
+            new O_file_info(
+                "snake_on_north_pole.jpg", 
+                "a snake on the north pole",
+                "snake on north pole", 
+                null
+            )
+        ),
     ),
     new o_o_class.O_person(
         1, 
@@ -32,8 +50,8 @@ var a_o_test_data = [
     ),
     new o_o_class.O_message(
         2,
-        1,
-        2, 
+        2,
+        1, 
         "Hallo Hans"
     )
 
